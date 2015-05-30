@@ -95,3 +95,25 @@ func TestNotModified(t *testing.T) {
 		t.Errorf("got %v, want %v", actual, expect)
 	}
 }
+
+func TestUpdateModTime(t *testing.T) {
+	m, err := NewMoniter(tempDir)
+	if err != nil {
+		t.Errorf("NewMoniter returns %q, want nil", err)
+	}
+	now := time.Now()
+	if err = os.Chtimes(tempDir, now, now); err != nil {
+		t.Errorf("Failed os.Chtimes(%q, %v, %v)",
+			tempDir, now, now)
+	}
+	if err = m.UpdateModTime(); err != nil {
+		t.Errorf("UpdateModTime returns %q, want nil", err)
+	}
+
+	expect := now
+	actual := m.LastModTime()
+	if actual != expect {
+		t.Errorf("got %v, want %v",
+			actual, expect)
+	}
+}
