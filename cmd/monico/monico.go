@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+
+	"github.com/kusabashira/monico"
 )
 
 func shortUsage() {
@@ -37,6 +39,24 @@ func copyCommand(src *exec.Cmd) *exec.Cmd {
 	return newCommand(src.Args)
 }
 
+func do(m *monico.Moniter, c *exec.Cmd) error {
+	c = copyCommand(c)
+	for {
+		modified, err := m.Modified()
+		if err != nil {
+			return err
+		}
+		if modified {
+			c.Run()
+			if err = m.UpdateModTime(); err != nil {
+				return err
+			}
+			c = copyCommand(c)
+		}
+	}
+	return nil
+}
+
 func main() {
 	var moniterPath string
 	flag.StringVar(&moniterPath, "d", "", "")
@@ -55,5 +75,26 @@ func main() {
 		fmt.Fprintln(os.Stderr, "monico:", "no specify COMMAND")
 		shortUsage()
 		os.Exit(2)
+	}
+
+	if moniterPath == "" {
+		wd, err := os.Getwd()
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "monico:", err)
+			os.Exit(1)
+		}
+		moniterPath = wd
+	}
+
+	m, err := monico.NewMoniter(moniterPath)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "monico:", err)
+		os.Exit(1)
+	}
+	c := newCommand(flag.Args())
+
+	if err = do(m, c); err != nil {
+		fmt.Fprintln(os.Stderr, "monico:", err)
+		os.Exit(1)
 	}
 }
