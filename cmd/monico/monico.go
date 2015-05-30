@@ -4,6 +4,13 @@ import (
 	"os"
 )
 
+func shortUsage() {
+	os.Stderr.WriteString(`
+Usage: monico [OPTION]... COMMAND [ARGS]...
+Try 'grep --help' for more information.
+`[1:])
+}
+
 func usage() {
 	os.Stderr.WriteString(`
 Usage: monico [OPTION]... COMMAND [ARGS]...
