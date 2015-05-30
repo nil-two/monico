@@ -41,3 +41,19 @@ func TestErrorPath(t *testing.T) {
 		t.Errorf("NewMoniter returns nil, want err")
 	}
 }
+
+func TestDefaultPath(t *testing.T) {
+	m, err := NewMoniterWithWD()
+	if err != nil {
+		t.Errorf("NewMoniter returns %q, want nil", err)
+	}
+	expect, err := os.Getwd()
+	if err != nil {
+		t.Errorf("Failed get working directory")
+	}
+	actual := m.Path()
+	if actual != expect {
+		t.Errorf("got %q, want %q",
+			actual, expect)
+	}
+}
