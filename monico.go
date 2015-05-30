@@ -2,19 +2,22 @@ package monico
 
 import (
 	"os"
+	"time"
 )
 
 type Moniter struct {
-	path string
+	path        string
+	lastModTime time.Time
 }
 
 func NewMoniter(path string) (*Moniter, error) {
-	_, err := os.Stat(path)
+	info, err := os.Stat(path)
 	if err != nil {
 		return nil, err
 	}
 	return &Moniter{
-		path: path,
+		path:        path,
+		lastModTime: info.ModTime(),
 	}, nil
 }
 
@@ -31,5 +34,9 @@ func (m *Moniter) Path() string {
 }
 
 func (m *Moniter) Modified() (bool, error) {
-	return true, nil
+	info, err := os.Stat(m.path)
+	if err != nil {
+		return false, err
+	}
+	return !m.lastModTime.Equal(info.ModTime()), nil
 }
