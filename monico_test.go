@@ -29,7 +29,7 @@ func TestPath(t *testing.T) {
 		t.Errorf("NewMoniter returns %q, want nil", err)
 	}
 	expect := tempDir
-	actual := m.Path()
+	actual := m.path
 	if actual != expect {
 		t.Errorf("got %q, want %q",
 			actual, expect)
@@ -52,7 +52,7 @@ func TestDefaultPath(t *testing.T) {
 	if err != nil {
 		t.Errorf("Failed get working directory")
 	}
-	actual := m.Path()
+	actual := m.path
 	if actual != expect {
 		t.Errorf("got %q, want %q",
 			actual, expect)
@@ -111,7 +111,7 @@ func TestUpdateModTime(t *testing.T) {
 	}
 
 	expect := now
-	actual := m.LastModTime()
+	actual := m.lastModTime
 	if actual != expect {
 		t.Errorf("got %v, want %v",
 			actual, expect)
