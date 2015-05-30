@@ -79,3 +79,19 @@ func TestModified(t *testing.T) {
 		t.Errorf("got %v, want %v", actual, expect)
 	}
 }
+
+func TestNotModified(t *testing.T) {
+	m, err := NewMoniter(tempDir)
+	if err != nil {
+		t.Errorf("NewMoniter returns %q, want nil", err)
+	}
+
+	expect := false
+	actual, err := m.Modified()
+	if err != nil {
+		t.Errorf("Modified returns %q, want nil", err)
+	}
+	if actual != expect {
+		t.Errorf("got %v, want %v", actual, expect)
+	}
+}
