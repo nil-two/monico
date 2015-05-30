@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"time"
 
 	"github.com/kusabashira/monico"
 )
@@ -42,6 +43,7 @@ func copyCommand(src *exec.Cmd) *exec.Cmd {
 func do(m *monico.Moniter, c *exec.Cmd) error {
 	c = copyCommand(c)
 	for {
+		time.Sleep(1 * time.Second)
 		modified, err := m.Modified()
 		if err != nil {
 			return err
