@@ -29,3 +29,7 @@ func NewMoniterWithWD() (*Moniter, error) {
 func (m *Moniter) Path() string {
 	return m.path
 }
+
+func (m *Moniter) Modified() (bool, error) {
+	return true, nil
+}
