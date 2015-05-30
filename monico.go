@@ -29,10 +29,6 @@ func NewMoniterWithWD() (*Moniter, error) {
 	return NewMoniter(wd)
 }
 
-func (m *Moniter) Path() string {
-	return m.path
-}
-
 func (m *Moniter) Modified() (bool, error) {
 	info, err := os.Stat(m.path)
 	if err != nil {
