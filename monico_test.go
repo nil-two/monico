@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"testing"
+	"time"
 )
 
 var tempDir string
@@ -55,5 +56,42 @@ func TestDefaultPath(t *testing.T) {
 	if actual != expect {
 		t.Errorf("got %q, want %q",
 			actual, expect)
+	}
+}
+
+func TestModified(t *testing.T) {
+	m, err := NewMoniter(tempDir)
+	if err != nil {
+		t.Errorf("NewMoniter returns %q, want nil", err)
+	}
+	now := time.Now()
+	if err = os.Chtimes(tempDir, now, now); err != nil {
+		t.Errorf("Failed os.Chtimes(%q, %v, %v)",
+			tempDir, now, now)
+	}
+
+	expect := true
+	actual, err := m.Modified()
+	if err != nil {
+		t.Errorf("Modified returns %q, want nil", err)
+	}
+	if actual != expect {
+		t.Errorf("got %v, want %v", actual, expect)
+	}
+}
+
+func TestNotModified(t *testing.T) {
+	m, err := NewMoniter(tempDir)
+	if err != nil {
+		t.Errorf("NewMoniter returns %q, want nil", err)
+	}
+
+	expect := false
+	actual, err := m.Modified()
+	if err != nil {
+		t.Errorf("Modified returns %q, want nil", err)
+	}
+	if actual != expect {
+		t.Errorf("got %v, want %v", actual, expect)
 	}
 }
