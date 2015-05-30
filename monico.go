@@ -44,3 +44,12 @@ func (m *Moniter) Modified() (bool, error) {
 func (m *Moniter) LastModTime() time.Time {
 	return m.lastModTime
 }
+
+func (m *Moniter) UpdateModTime() error {
+	info, err := os.Stat(m.path)
+	if err != nil {
+		return err
+	}
+	m.lastModTime = info.ModTime()
+	return nil
+}
