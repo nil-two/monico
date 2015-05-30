@@ -34,3 +34,10 @@ func TestPath(t *testing.T) {
 			actual, expect)
 	}
 }
+
+func TestErrorPath(t *testing.T) {
+	_, err := NewMoniter("")
+	if err == nil {
+		t.Errorf("NewMoniter returns nil, want err")
+	}
+}
