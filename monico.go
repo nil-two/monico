@@ -5,7 +5,9 @@ type Moniter struct {
 }
 
 func NewMoniter(path string) (*Moniter, error) {
-	return &Moniter{}, nil
+	return &Moniter{
+		path: path,
+	}, nil
 }
 
 func (m *Moniter) Path() string {
