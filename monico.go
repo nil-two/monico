@@ -37,10 +37,6 @@ func (m *Moniter) Modified() (bool, error) {
 	return !m.lastModTime.Equal(info.ModTime()), nil
 }
 
-func (m *Moniter) LastModTime() time.Time {
-	return m.lastModTime
-}
-
 func (m *Moniter) UpdateModTime() error {
 	info, err := os.Stat(m.path)
 	if err != nil {
