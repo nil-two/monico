@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"os/exec"
 )
 
 func shortUsage() {
@@ -22,6 +23,18 @@ Options:
 	-d, --dir=PATH   cd PATH before monitering
 	-h, --help       show this help message
 `[1:])
+}
+
+func newCommand(a []string) *exec.Cmd {
+	c := exec.Command(a[0], a[1:]...)
+	c.Stdin = os.Stdin
+	c.Stdout = os.Stdout
+	c.Stderr = os.Stderr
+	return c
+}
+
+func copyCommand(src *exec.Cmd) *exec.Cmd {
+	return newCommand(src.Args)
 }
 
 func main() {
