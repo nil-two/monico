@@ -1,6 +1,8 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"os"
 )
 
@@ -23,4 +25,22 @@ Options:
 }
 
 func main() {
+	var moniterPath string
+	flag.StringVar(&moniterPath, "d", "", "")
+	flag.StringVar(&moniterPath, "dir", "", "")
+
+	var isHelp bool
+	flag.BoolVar(&isHelp, "h", false, "")
+	flag.BoolVar(&isHelp, "help", false, "")
+	flag.Usage = shortUsage
+	flag.Parse()
+	switch {
+	case isHelp:
+		usage()
+		os.Exit(0)
+	case flag.NArg() < 1:
+		fmt.Fprintln(os.Stderr, "monico:", "no specify COMMAND")
+		shortUsage()
+		os.Exit(2)
+	}
 }
