@@ -22,7 +22,7 @@ Usage: monico [OPTION]... COMMAND [ARGS]...
 Run COMMAND if there is modified current directory.
 
 Options:
-	-d, --dir=PATH   cd PATH before monitering
+	-d, --dir=PATH   moniter under PATH
 	-h, --help       show this help message
 `[1:])
 }
