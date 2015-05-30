@@ -9,5 +9,5 @@ func NewMoniter(path string) (*Moniter, error) {
 }
 
 func (m *Moniter) Path() string {
-	return ""
+	return m.path
 }
