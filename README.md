@@ -19,9 +19,9 @@ Usage
 Installation
 ------------
 
-###compiled binary
+###compiled binary(not yet)
 
-See [releases](https://github.com/kusabashira/lclip/releases)
+See [releases](https://github.com/kusabashira/monico/releases)
 
 ###go get
 
