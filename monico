@@ -12,7 +12,7 @@ function parse_flags() {
     case $opt in
       -d|--directory)
         if [ $# -lt 2 ]; then
-          echo "$NAME: option requires an argument -- '${opt##*-}'"
+          echo "$NAME: option requires an argument -- '${1##*-}'"
           exit 2
         fi
         DIRECTORY="$2"
@@ -27,7 +27,7 @@ function parse_flags() {
         exit 0
         ;;
       -*)
-        echo "$NAME: unrecognized option -- '${opt##*-}'"
+        echo "$NAME: unrecognized option -- '${1##*-}'"
         exit 2
         ;;
       *)
