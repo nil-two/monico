@@ -51,12 +51,6 @@ function parse_flags() {
   ARGS=${@:2}
   DIRECTORY="${DIRECTORY:=`pwd`}"
 }
-function shortusage() {
-  cat <<EOF
-Usage: $NAME [OPTION]... COMMAND [ARGS]...
-Try '$NAME --help' for more information.
-EOF
-}
 function usage() {
   cat <<EOF
 Usage: $NAME [OPTION]... COMMAND [ARGS]...
