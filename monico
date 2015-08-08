@@ -61,6 +61,7 @@ function moniter() {
   inotifywait \
     --event   'create,delete,modify,move' \
     --exclude '.*\.sw[pox]' \
+    --quiet \
     --monitor \
     --recursive \
     "$DIRECTORY"
