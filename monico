@@ -9,6 +9,10 @@ function main() {
 }
 function parse_flags() {
   DIRECTORY=`pwd`
+  if [ $# -lt 1 ]; then
+    shortusage
+    exit 2
+  fi
   for opt in "$@"; do
     case $opt in
       -d|--directory)
@@ -42,6 +46,12 @@ function parse_flags() {
         ;;
     esac
   done
+}
+function shortusage() {
+  cat <<EOF
+Usage: $PROG_NAME [OPTION]... COMMAND [ARGS]...
+Try '$PROG_NAME --help' for more information.
+EOF
 }
 function usage() {
   cat <<EOF
