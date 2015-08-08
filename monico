@@ -8,7 +8,6 @@ function main() {
   moniter | execute
 }
 function parse_flags() {
-  DIRECTORY=`pwd`
   for opt in "$@"; do
     case $opt in
       -d|--directory)
@@ -42,6 +41,7 @@ function parse_flags() {
   fi
   CMD="${1}"
   ARGS=${@:2}
+  DIRECTORY="${DIRECTORY:=`pwd`}"
 }
 function shortusage() {
   cat <<EOF
