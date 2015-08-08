@@ -43,6 +43,10 @@ function parse_flags() {
     echo "$NAME: no specify COMMAND"
     exit 2
   fi
+  if [ -z "$(command -v ${1})" ]; then
+    echo "$NAME: ${1}: cannot execute"
+    exit 2
+  fi
   CMD="${1}"
   ARGS=${@:2}
   DIRECTORY="${DIRECTORY:=`pwd`}"
