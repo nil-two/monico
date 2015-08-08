@@ -9,10 +9,6 @@ function main() {
 }
 function parse_flags() {
   DIRECTORY=`pwd`
-  if [ $# -lt 1 ]; then
-    shortusage
-    exit 2
-  fi
   for opt in "$@"; do
     case $opt in
       -d|--directory)
@@ -36,16 +32,16 @@ function parse_flags() {
         exit 2
         ;;
       *)
-        if [ $# -eq 0 ]; then
-          echo "$NAME: no specify COMMAND"
-          exit 2
-        fi
-        CMD="${1}"
-        ARGS=${@:2}
         break
         ;;
     esac
   done
+  if [ $# -lt 1 ]; then
+    echo "$NAME: no specify COMMAND"
+    exit 2
+  fi
+  CMD="${1}"
+  ARGS=${@:2}
 }
 function shortusage() {
   cat <<EOF
