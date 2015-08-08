@@ -57,7 +57,7 @@ Usage: $NAME [OPTION]... COMMAND [ARGS]...
 Execute COMMAND for changes to current directory.
 
 Options:
-  -d, --directory PATH   moniter under PATH
+  -d, --directory=PATH   Change monitored directory to PATH
   -h, --help             display this help text and exit
   -v, --version          display version information and exit
 EOF
