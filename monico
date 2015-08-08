@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -eu
-readonly PROG_NAME="$(basename $0)"
+readonly NAME="$(basename $0)"
 readonly VERSION='v0.1.0'
 
 function main() {
@@ -17,7 +17,7 @@ function parse_flags() {
     case $opt in
       -d|--directory)
         if [ $# -lt 2 ]; then
-          echo "$PROG_NAME: option requires an argument -- '${opt##*-}'"
+          echo "$NAME: option requires an argument -- '${opt##*-}'"
           exit 2
         fi
         DIRECTORY="$2"
@@ -32,12 +32,12 @@ function parse_flags() {
         exit 0
         ;;
       -*)
-        echo "$PROG_NAME: unrecognized option -- '${opt##*-}'"
+        echo "$NAME: unrecognized option -- '${opt##*-}'"
         exit 2
         ;;
       *)
         if [ $# -eq 0 ]; then
-          echo "$PROG_NAME: no specify COMMAND"
+          echo "$NAME: no specify COMMAND"
           exit 2
         fi
         CMD="${1}"
@@ -49,13 +49,13 @@ function parse_flags() {
 }
 function shortusage() {
   cat <<EOF
-Usage: $PROG_NAME [OPTION]... COMMAND [ARGS]...
-Try '$PROG_NAME --help' for more information.
+Usage: $NAME [OPTION]... COMMAND [ARGS]...
+Try '$NAME --help' for more information.
 EOF
 }
 function usage() {
   cat <<EOF
-Usage: $PROG_NAME [OPTION]... COMMAND [ARGS]...
+Usage: $NAME [OPTION]... COMMAND [ARGS]...
 Execute COMMAND for changes to current directory.
 
 Options:
