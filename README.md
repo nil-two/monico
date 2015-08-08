@@ -4,8 +4,8 @@ monico
 Execute COMMAND for changes to current directory.
 
 ```
-$ monico make
-(execute make for changes to current directory)
+# execute make for changes to ./
+monico make
 ```
 
 Requirement
@@ -26,11 +26,11 @@ Options:
   -v, --version          display version information and exit
 
 
-$ monico go test
-(execute go test for changes to current directory)
+# execute go test for changes to ./
+monico go test
 
-$ monico -d=src make
-(execute make for changes to ./src)
+# execute make for changes to ./src
+monico -d=src make
 ```
 
 License
