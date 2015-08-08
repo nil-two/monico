@@ -66,6 +66,7 @@ function moniter() {
     "$DIRECTORY"
 }
 function execute() {
+  set +e
   while read; do
     # ignore continuous notify
     while read -t 0.3; do
