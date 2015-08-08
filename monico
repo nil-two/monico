@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 set -eu
 readonly PROG_NAME="$(basename $0)"
+readonly VERSION='v0.1.0'
 readonly cmd="${1}"
 readonly args=${@:2}
 
@@ -14,6 +15,9 @@ Options:
   -h, --help             display this help text and exit
   -v, --version          display version information and exit
 EOF
+}
+function version() {
+  echo "$VERSION"
 }
 function moniter() {
   inotifywait \
