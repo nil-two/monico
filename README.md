@@ -1,7 +1,7 @@
 monico
 ======
 
-Run COMMAND if there is a change under the current directory.
+Execute COMMAND for changes to current directory.
 
 License
 -------
