@@ -1,0 +1,27 @@
+#!/usr/bin/bash
+set -eu
+readonly cmd="${1}"
+readonly args=${@:2}
+
+function moniter() {
+  inotifywait \
+    --event   'create,delete,modify,move' \
+    --exclude '.*\.sw[pox]' \
+    --monitor \
+    --recursive \
+    `pwd`
+}
+function execute() {
+  while read; do
+    # ignore continuous notify
+    while read -t 0.3; do
+      :
+    done
+    clear
+    ${cmd} ${args}
+  done
+}
+
+moniter | execute
+
+exit 0
