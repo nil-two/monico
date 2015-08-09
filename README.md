@@ -8,7 +8,7 @@ Execute COMMAND for changes to current directory.
 monico make
 ```
 
-Requirement
+Requirements
 -----------
 
 - bash
