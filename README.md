@@ -14,6 +14,19 @@ Requirements
 - bash
 - inotify
 
+Installation
+------------
+
+monico is a simple shell script.
+
+The following instructions assume that `~/bin` is on your `$PATH`.
+If that is not the case, you can substitute your favorite location.
+
+```sh
+curl -L https://raw.githubusercontent.com/kusabashira/monico/master/monico > ~/bin/monico
+chmod 755 ~/bin/monico
+```
+
 Usage
 -----
 
