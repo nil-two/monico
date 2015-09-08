@@ -8,8 +8,8 @@ main() {
   moniter | execute
 }
 parse_flags() {
-  for opt in "$@"; do
-    case "$opt" in
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
       -d|--directory)
         if [ "$#" -lt 2 ]; then
           echo "$NAME: option requires an argument -- '${1##*-}'"
