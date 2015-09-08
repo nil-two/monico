@@ -3,11 +3,11 @@ set -eu
 readonly NAME="$(basename $0)"
 readonly VERSION='v0.1.0'
 
-function main() {
+main() {
   parse_flags "$@"
   moniter | execute
 }
-function parse_flags() {
+parse_flags() {
   for opt in "$@"; do
     case "$opt" in
       -d|--directory)
@@ -49,9 +49,9 @@ function parse_flags() {
   fi
   COMMAND="$1"
   ARGS=${@:2}
-  DIRECTORY="${DIRECTORY:=`pwd`}"
+  DIRECTORY="${DIRECTORY:="$(pwd)"}"
 }
-function usage() {
+usage() {
   cat <<EOF
 Usage: $NAME [OPTION]... COMMAND [ARGS]...
 Execute COMMAND for changes to current directory.
@@ -62,10 +62,10 @@ Options:
   -v, --version          display version information and exit
 EOF
 }
-function version() {
+version() {
   echo "$VERSION"
 }
-function moniter() {
+moniter() {
   inotifywait \
     --event   'create,delete,modify,move' \
     --exclude '.*\.sw[pox]' \
@@ -74,7 +74,7 @@ function moniter() {
     --recursive \
     "$DIRECTORY"
 }
-function execute() {
+execute() {
   set +e
   while read; do
     # ignore continuous notify
