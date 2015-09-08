@@ -4,7 +4,7 @@ readonly NAME="$(basename $0)"
 readonly VERSION='v0.1.0'
 
 function main() {
-  parse_flags $*
+  parse_flags "$@"
   moniter | execute
 }
 function parse_flags() {
@@ -86,5 +86,5 @@ function execute() {
   done
 }
 
-main $*
+main "$@"
 exit 0
