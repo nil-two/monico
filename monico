@@ -48,7 +48,7 @@ parse_flags() {
     exit 2
   fi
   COMMAND="$1"
-  ARGS=${@:2}
+  ARGS=("${@:2}")
   DIRECTORY="${DIRECTORY:="$(pwd)"}"
 }
 usage() {
@@ -82,7 +82,7 @@ execute() {
       :
     done
     clear
-    $COMMAND $ARGS
+    "$COMMAND" "${ARGS[@]}"
   done
 }
 
