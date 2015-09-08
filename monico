@@ -76,9 +76,9 @@ moniter() {
 }
 execute() {
   set +e
-  while read; do
+  while read -r; do
     # ignore continuous notify
-    while read -t 0.3; do
+    while read -r -t 0.3; do
       :
     done
     clear
