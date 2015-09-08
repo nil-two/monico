@@ -16,11 +16,10 @@ parse_flags() {
           exit 2
         fi
         DIRECTORY="$2"
-        shift 2
+        shift
         ;;
       -d=*|--directory=*)
         DIRECTORY="$(eval echo "${1##*=}")"
-        shift 1
         ;;
       -h|--help)
         usage
@@ -38,6 +37,7 @@ parse_flags() {
         break
         ;;
     esac
+    shift
   done
   if [ "$#" -lt 1 ]; then
     echo "$NAME: no specify COMMAND"
