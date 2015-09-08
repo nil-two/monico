@@ -9,9 +9,9 @@ function main() {
 }
 function parse_flags() {
   for opt in "$@"; do
-    case $opt in
+    case "$opt" in
       -d|--directory)
-        if [ $# -lt 2 ]; then
+        if [ "$#" -lt 2 ]; then
           echo "$NAME: option requires an argument -- '${1##*-}'"
           exit 2
         fi
@@ -19,7 +19,7 @@ function parse_flags() {
         shift 2
         ;;
       -d=*|--directory=*)
-        DIRECTORY="$(eval echo ${1##*=})"
+        DIRECTORY="$(eval echo "${1##*=}")"
         shift 1
         ;;
       -h|--help)
@@ -39,11 +39,11 @@ function parse_flags() {
         ;;
     esac
   done
-  if [ $# -lt 1 ]; then
+  if [ "$#" -lt 1 ]; then
     echo "$NAME: no specify COMMAND"
     exit 2
   fi
-  if [ -z "$(command -v ${1})" ]; then
+  if [ -z "$(command -v "${1}")" ]; then
     echo "$NAME: ${1}: cannot execute"
     exit 2
   fi
