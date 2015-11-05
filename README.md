@@ -43,7 +43,7 @@ Options:
 monico go test
 
 # execute make for changes to ./src
-monico -d=src make
+monico -d src make
 ```
 
 License
