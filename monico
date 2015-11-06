@@ -12,7 +12,7 @@ parse_flags() {
     case "$1" in
       -d|--directory)
         if [ "$#" -lt 2 ]; then
-          echo "$NAME: option requires an argument -- '${1##*-}'"
+          echo "$NAME: option requires an argument -- '${1##*-}'" >&2
           exit 2
         fi
         DIRECTORY="$2"
@@ -37,7 +37,7 @@ parse_flags() {
         break
         ;;
       -*)
-        echo "$NAME: unrecognized option -- '${1##*-}'"
+        echo "$NAME: unrecognized option -- '${1##*-}'" >&2
         exit 2
         ;;
       *)
@@ -47,11 +47,11 @@ parse_flags() {
     shift
   done
   if [ "$#" -lt 1 ]; then
-    echo "$NAME: no specify COMMAND"
+    echo "$NAME: no specify COMMAND" >&2
     exit 2
   fi
   if [ -z "$(command -v "$1")" ]; then
-    echo "$NAME: $1: cannot execute"
+    echo "$NAME: $1: cannot execute" >&2
     exit 2
   fi
   COMMAND="$1"
@@ -59,7 +59,7 @@ parse_flags() {
   DIRECTORY="${DIRECTORY:="$(pwd)"}"
 }
 usage() {
-  cat <<EOF
+  cat <<EOF >&2
 Usage: $NAME [OPTION]... COMMAND [ARGS]...
 Execute COMMAND for changes to current directory.
 
@@ -70,7 +70,7 @@ Options:
 EOF
 }
 version() {
-  echo "$VERSION"
+  echo "$VERSION" >&2
 }
 moniter() {
   inotifywait \
