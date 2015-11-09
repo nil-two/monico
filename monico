@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eu
 readonly NAME="${0##*/}"
-readonly VERSION='v0.2.0'
+readonly VERSION='0.2.0'
 
 main() {
   parse_flags "$@"
