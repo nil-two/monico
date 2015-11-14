@@ -82,7 +82,7 @@ moniter() {
     "$DIRECTORY"
 }
 execute() {
-  set +e
+  set +eu
   while read -r; do
     # ignore continuous notify
     while read -r -t 0.3; do
