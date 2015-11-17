@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#! /bin/bash
 set -eu
 readonly NAME="${0##*/}"
 readonly VERSION='0.2.0'
