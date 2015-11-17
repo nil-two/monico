@@ -90,6 +90,10 @@ execute() {
     done
     clear
     "$COMMAND" "${ARGS[@]}"
+    # ignore notification by the command
+    while read -r -t 0.3; do
+      :
+    done
   done
 }
 
