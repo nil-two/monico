@@ -84,7 +84,7 @@ moniter() {
 execute() {
   set +eu
   while read -r; do
-    # ignore continuous notify
+    # ignore continuous notification
     while read -r -t 0.3; do
       :
     done
