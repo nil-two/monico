@@ -34,10 +34,10 @@ Usage
 $ monico [OPTION]... COMMAND [ARGS]...
 
 Options:
-  -C, --no-clear         Suppress clear at execute
-  -d, --directory=PATH   Change monitored directory to PATH
+  -C, --no-clear         suppress clear at execute
+  -d, --directory=PATH   change monitored directory to PATH
   -h, --help             display this help text and exit
-  -v, --version          display version information and exit
+  -v, --version          output version information and exit
 
 
 # execute go test for changes to ./
