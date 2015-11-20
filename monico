@@ -1,6 +1,5 @@
 #! /bin/bash
 set -eu
-readonly name="${0##*/}"
 readonly version='0.2.0'
 
 main() {
@@ -22,7 +21,7 @@ parse_flags() {
         ;;
       -d|--directory)
         if [ "$#" -lt 2 ]; then
-          echo "$name: option requires an argument -- '${1##*-}'" >&2
+          echo "${0##*/}: option requires an argument -- '${1##*-}'" >&2
           exit 2
         fi
         directory="$2"
@@ -47,7 +46,7 @@ parse_flags() {
         break
         ;;
       -*)
-        echo "$name: unrecognized option -- '${1##*-}'" >&2
+        echo "${0##*/}: unrecognized option -- '${1##*-}'" >&2
         exit 2
         ;;
       *)
@@ -57,11 +56,11 @@ parse_flags() {
     shift
   done
   if [ "$#" -lt 1 ]; then
-    echo "$name: no specify cmd" >&2
+    echo "${0##*/}: no specify cmd" >&2
     exit 2
   fi
   if [ -z "$(command -v "$1")" ]; then
-    echo "$name: $1: cannot execute" >&2
+    echo "${0##*/}: $1: cannot execute" >&2
     exit 2
   fi
   cmd="$1"
@@ -71,7 +70,7 @@ parse_flags() {
 }
 usage() {
   cat <<EOF >&2
-Usage: $name [OPTION]... COMMAND [ARGS]...
+Usage: ${0##*/} [OPTION]... COMMAND [ARGS]...
 Execute COMMAND for changes to current directory.
 
 Options:
