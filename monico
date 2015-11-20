@@ -66,8 +66,8 @@ parse_flags() {
   fi
   cmd="$1"
   args=("${@:2}")
-  directory="${directory:="$(pwd)"}"
-  require_clear="${require_clear:=1}"
+  directory="${directory:-$(pwd)}"
+  require_clear="${require_clear:-1}"
 }
 
 usage() {
