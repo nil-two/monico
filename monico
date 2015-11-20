@@ -5,7 +5,7 @@ readonly VERSION='0.2.0'
 
 main() {
   parse_flags "$@"
-  moniter | execute
+  monitor | execute
 }
 parse_flags() {
   while [ "$#" -gt 0 ]; do
@@ -84,7 +84,7 @@ EOF
 version() {
   echo "$VERSION" >&2
 }
-moniter() {
+monitor() {
   inotifywait \
     --event   'create,delete,modify,move' \
     --exclude '.*\.sw[pox]' \
