@@ -60,7 +60,7 @@ parse_flags() {
     echo "${0##*/}: no specify cmd" >&2
     exit 2
   fi
-  if [ -z "$(command -v "$1")" ]; then
+  if [ -z "$(type -- "$1" 2> /dev/null)" ]; then
     echo "${0##*/}: $1: cannot execute" >&2
     exit 2
   fi
