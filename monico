@@ -10,6 +10,16 @@ main() {
 parse_flags() {
   while [ "$#" -gt 0 ]; do
     case "$1" in
+      -C|--no-clear)
+        CLEAR=0
+        ;;
+      -C*)
+        CLEAR=0
+        NEXT="-${1#-C}"
+        shift
+        set -- "$NEXT" "$@"
+        continue
+        ;;
       -d|--directory)
         if [ "$#" -lt 2 ]; then
           echo "$NAME: option requires an argument -- '${1##*-}'" >&2
@@ -57,6 +67,7 @@ parse_flags() {
   COMMAND="$1"
   ARGS=("${@:2}")
   DIRECTORY="${DIRECTORY:="$(pwd)"}"
+  CLEAR="${CLEAR:=1}"
 }
 usage() {
   cat <<EOF >&2
@@ -64,6 +75,7 @@ Usage: $NAME [OPTION]... COMMAND [ARGS]...
 Execute COMMAND for changes to current directory.
 
 Options:
+  -C, --no-clear         Suppress clear at execute
   -d, --directory=PATH   Change monitored directory to PATH
   -h, --help             display this help text and exit
   -v, --version          display version information and exit
@@ -88,7 +100,9 @@ execute() {
     while read -r -t 0.3; do
       :
     done
-    clear
+    if [ "$CLEAR" -eq 1 ]; then
+      clear
+    fi
     "$COMMAND" "${ARGS[@]}"
     # ignore notification by the command
     while read -r -t 0.3; do
