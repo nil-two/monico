@@ -34,7 +34,7 @@ parse_flags() {
       --directory=*)
         directory="${1#--directory=}"
         ;;
-      -h|--help)
+      --help)
         usage
         exit 0
         ;;
@@ -79,7 +79,7 @@ Execute COMMAND for changes to current directory.
 Options:
   -C, --no-clear         suppress clear at execute
   -d, --directory=PATH   change monitored directory to PATH
-  -h, --help             display this help text and exit
+      --help             display this help text and exit
   -v, --version          output version information and exit
 EOF
 }

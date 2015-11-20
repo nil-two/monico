@@ -36,7 +36,7 @@ $ monico [OPTION]... COMMAND [ARGS]...
 Options:
   -C, --no-clear         suppress clear at execute
   -d, --directory=PATH   change monitored directory to PATH
-  -h, --help             display this help text and exit
+      --help             display this help text and exit
   -v, --version          output version information and exit
 
 
