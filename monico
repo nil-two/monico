@@ -6,6 +6,7 @@ main() {
   parse_flags "$@"
   monitor | execute
 }
+
 parse_flags() {
   while [ "$#" -gt 0 ]; do
     case "$1" in
@@ -68,6 +69,7 @@ parse_flags() {
   directory="${directory:="$(pwd)"}"
   require_clear="${require_clear:=1}"
 }
+
 usage() {
   cat <<EOF >&2
 Usage: ${0##*/} [OPTION]... COMMAND [ARGS]...
@@ -80,9 +82,11 @@ Options:
   -v, --version          output version information and exit
 EOF
 }
+
 version() {
   echo "$version" >&2
 }
+
 monitor() {
   inotifywait \
     --event   'create,delete,modify,move' \
@@ -92,6 +96,7 @@ monitor() {
     --recursive \
     "$directory"
 }
+
 execute() {
   set +eu
   while read -r; do
