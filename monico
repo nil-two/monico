@@ -56,6 +56,9 @@ parse_flags() {
     esac
     shift
   done
+  require_clear="${require_clear:-1}"
+  directory="${directory:-$(pwd)}"
+
   if [ "$#" -lt 1 ]; then
     echo "${0##*/}: no specify cmd" >&2
     exit 2
@@ -66,8 +69,6 @@ parse_flags() {
   fi
   cmd="$1"
   args=("${@:2}")
-  directory="${directory:-$(pwd)}"
-  require_clear="${require_clear:-1}"
 }
 
 usage() {
@@ -89,7 +90,7 @@ version() {
 
 monitor() {
   inotifywait \
-    --event   'create,delete,modify,move' \
+    --event 'create,delete,modify,move' \
     --exclude '.*\.sw[pox]' \
     --quiet \
     --monitor \
@@ -104,10 +105,10 @@ execute() {
     while read -r -t 0.3; do
       :
     done
-    if [ "$require_clear" -eq 1 ]; then
-      clear
-    fi
+
+    [ "$require_clear" -eq 1 ] && clear
     "$cmd" "${args[@]}"
+
     # ignore notification by the command
     while read -r -t 0.3; do
       :
