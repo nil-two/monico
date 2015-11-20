@@ -37,7 +37,7 @@ Options:
   -C, --no-clear         suppress clear at execute
   -d, --directory=PATH   change monitored directory to PATH
       --help             display this help text and exit
-  -v, --version          output version information and exit
+      --version          output version information and exit
 
 
 # execute go test for changes to ./
