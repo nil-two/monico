@@ -1,7 +1,7 @@
 #! /bin/bash
 set -eu
-readonly NAME="${0##*/}"
-readonly VERSION='0.2.0'
+readonly name="${0##*/}"
+readonly version='0.2.0'
 
 main() {
   parse_flags "$@"
@@ -11,28 +11,28 @@ parse_flags() {
   while [ "$#" -gt 0 ]; do
     case "$1" in
       -C|--no-clear)
-        CLEAR=0
+        require_clear=0
         ;;
       -C*)
-        CLEAR=0
-        NEXT="-${1#-C}"
+        require_clear=0
+        next="-${1#-C}"
         shift
-        set -- "$NEXT" "$@"
+        set -- "$next" "$@"
         continue
         ;;
       -d|--directory)
         if [ "$#" -lt 2 ]; then
-          echo "$NAME: option requires an argument -- '${1##*-}'" >&2
+          echo "$name: option requires an argument -- '${1##*-}'" >&2
           exit 2
         fi
-        DIRECTORY="$2"
+        directory="$2"
         shift
         ;;
       -d*)
-        DIRECTORY="${1#-d}"
+        directory="${1#-d}"
         ;;
       --directory=*)
-        DIRECTORY="${1#--directory=}"
+        directory="${1#--directory=}"
         ;;
       -h|--help)
         usage
@@ -47,7 +47,7 @@ parse_flags() {
         break
         ;;
       -*)
-        echo "$NAME: unrecognized option -- '${1##*-}'" >&2
+        echo "$name: unrecognized option -- '${1##*-}'" >&2
         exit 2
         ;;
       *)
@@ -57,21 +57,21 @@ parse_flags() {
     shift
   done
   if [ "$#" -lt 1 ]; then
-    echo "$NAME: no specify COMMAND" >&2
+    echo "$name: no specify cmd" >&2
     exit 2
   fi
   if [ -z "$(command -v "$1")" ]; then
-    echo "$NAME: $1: cannot execute" >&2
+    echo "$name: $1: cannot execute" >&2
     exit 2
   fi
-  COMMAND="$1"
-  ARGS=("${@:2}")
-  DIRECTORY="${DIRECTORY:="$(pwd)"}"
-  CLEAR="${CLEAR:=1}"
+  cmd="$1"
+  args=("${@:2}")
+  directory="${directory:="$(pwd)"}"
+  require_clear="${require_clear:=1}"
 }
 usage() {
   cat <<EOF >&2
-Usage: $NAME [OPTION]... COMMAND [ARGS]...
+Usage: $name [OPTION]... COMMAND [ARGS]...
 Execute COMMAND for changes to current directory.
 
 Options:
@@ -82,7 +82,7 @@ Options:
 EOF
 }
 version() {
-  echo "$VERSION" >&2
+  echo "$version" >&2
 }
 monitor() {
   inotifywait \
@@ -91,7 +91,7 @@ monitor() {
     --quiet \
     --monitor \
     --recursive \
-    "$DIRECTORY"
+    "$directory"
 }
 execute() {
   set +eu
@@ -100,10 +100,10 @@ execute() {
     while read -r -t 0.3; do
       :
     done
-    if [ "$CLEAR" -eq 1 ]; then
+    if [ "$require_clear" -eq 1 ]; then
       clear
     fi
-    "$COMMAND" "${ARGS[@]}"
+    "$cmd" "${args[@]}"
     # ignore notification by the command
     while read -r -t 0.3; do
       :
