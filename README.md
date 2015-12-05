@@ -12,7 +12,7 @@ Requirements
 -----------
 
 - bash
-- inotify
+- inotify-tools
 
 Installation
 ------------
