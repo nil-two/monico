@@ -10,6 +10,16 @@ main() {
 parse_flags() {
   while [ "$#" -gt 0 ]; do
     case "$1" in
+      -b|--buffer-output)
+        require_buffering=1
+        ;;
+      -b*)
+        require_buffering=1
+        next="-${1#-b}"
+        shift
+        set -- "$next" "$@"
+        continue
+        ;;
       -C|--no-clear)
         require_clear=0
         ;;
@@ -56,6 +66,7 @@ parse_flags() {
     esac
     shift
   done
+  require_buffering="${require_buffering:-0}"
   require_clear="${require_clear:-1}"
   directory="${directory:-$(pwd)}"
 
@@ -77,6 +88,7 @@ Usage: ${0##*/} [OPTION]... COMMAND [ARGS]...
 Execute COMMAND for changes to current directory.
 
 Options:
+  -b, --buffer-output    output after command finished
   -C, --no-clear         suppress clear at execute
   -d, --directory=PATH   change monitored directory to PATH
       --help             display this help text and exit
@@ -100,14 +112,25 @@ monitor() {
 
 execute() {
   set +eu
+  if [ "$require_buffering" -eq 1 ]; then
+    buffer="$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")"
+    trap 'rm -rf -- '$buffer EXIT
+  fi
+
   while read -r; do
     # ignore continuous notification
     while read -r -t 0.3; do
       :
     done
 
-    [ "$require_clear" -eq 1 ] && clear
-    "$cmd" "${args[@]}"
+    if [ "$require_buffering" -eq 1 ]; then
+      "$cmd" "${args[@]}" > "$buffer" 2>&1
+      [ "$require_clear" -eq 1 ] && clear
+      cat "$buffer"
+    else
+      [ "$require_clear" -eq 1 ] && clear
+      "$cmd" "${args[@]}"
+    fi
 
     # ignore notification by the command
     while read -r -t 0.3; do
