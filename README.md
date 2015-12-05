@@ -34,6 +34,7 @@ Usage
 $ monico [OPTION]... COMMAND [ARGS]...
 
 Options:
+  -b, --buffer-output    output after command finished
   -C, --no-clear         suppress clear at execute
   -d, --directory=PATH   change monitored directory to PATH
       --help             display this help text and exit
