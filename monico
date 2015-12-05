@@ -8,7 +8,7 @@ main() {
 }
 
 parse_flags() {
-  while [ "$#" -gt 0 ]; do
+  while [[ $# -gt 0 ]]; do
     case "$1" in
       -b|--buffer-output)
         require_buffering=true
@@ -31,7 +31,7 @@ parse_flags() {
         continue
         ;;
       -d|--directory)
-        if [ "$#" -lt 2 ]; then
+        if [[ $# -lt 2 ]]; then
           echo "${0##*/}: option requires an argument -- '${1##*-}'" >&2
           exit 2
         fi
@@ -70,11 +70,11 @@ parse_flags() {
   require_clear="${require_clear:-true}"
   directory="${directory:-$(pwd)}"
 
-  if [ "$#" -lt 1 ]; then
+  if [[ $# -lt 1 ]]; then
     echo "${0##*/}: no specify cmd" >&2
     exit 2
   fi
-  if [ -z "$(type -- "$1" 2> /dev/null)" ]; then
+  if [[ -z $(type -- "$1" 2> /dev/null) ]]; then
     echo "${0##*/}: $1: cannot execute" >&2
     exit 2
   fi
