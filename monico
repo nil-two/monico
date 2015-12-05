@@ -11,20 +11,20 @@ parse_flags() {
   while [ "$#" -gt 0 ]; do
     case "$1" in
       -b|--buffer-output)
-        require_buffering=1
+        require_buffering=true
         ;;
       -b*)
-        require_buffering=1
+        require_buffering=true
         next="-${1#-b}"
         shift
         set -- "$next" "$@"
         continue
         ;;
       -C|--no-clear)
-        require_clear=0
+        require_clear=false
         ;;
       -C*)
-        require_clear=0
+        require_clear=false
         next="-${1#-C}"
         shift
         set -- "$next" "$@"
@@ -66,8 +66,8 @@ parse_flags() {
     esac
     shift
   done
-  require_buffering="${require_buffering:-0}"
-  require_clear="${require_clear:-1}"
+  require_buffering="${require_buffering:-false}"
+  require_clear="${require_clear:-true}"
   directory="${directory:-$(pwd)}"
 
   if [ "$#" -lt 1 ]; then
@@ -112,7 +112,7 @@ monitor() {
 
 execute() {
   set +eu
-  if [ "$require_buffering" -eq 1 ]; then
+  if $require_buffering; then
     buffer="$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")"
     trap 'rm -rf -- '$buffer EXIT
   fi
@@ -123,12 +123,12 @@ execute() {
       :
     done
 
-    if [ "$require_buffering" -eq 1 ]; then
+    if $require_buffering; then
       "$cmd" "${args[@]}" > "$buffer" 2>&1
-      [ "$require_clear" -eq 1 ] && clear
+      $require_clear && clear
       cat "$buffer"
     else
-      [ "$require_clear" -eq 1 ] && clear
+      $require_clear && clear
       "$cmd" "${args[@]}"
     fi
 
