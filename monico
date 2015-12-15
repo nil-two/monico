@@ -2,81 +2,6 @@
 set -eu
 readonly version='0.3.0'
 
-parse_flags() {
-  while [[ $# -gt 0 ]]; do
-    case "$1" in
-      -b|--buffer-output)
-        require_buffering=true
-        ;;
-      -b*)
-        require_buffering=true
-        next="-${1#-b}"
-        shift
-        set -- "$next" "$@"
-        continue
-        ;;
-      -C|--no-clear)
-        require_clear=false
-        ;;
-      -C*)
-        require_clear=false
-        next="-${1#-C}"
-        shift
-        set -- "$next" "$@"
-        continue
-        ;;
-      -d|--directory)
-        if [[ $# -lt 2 ]]; then
-          echo "${0##*/}: option requires an argument -- '${1##*-}'" >&2
-          exit 2
-        fi
-        directory="$2"
-        shift
-        ;;
-      -d*)
-        directory="${1#-d}"
-        ;;
-      --directory=*)
-        directory="${1#--directory=}"
-        ;;
-      --help)
-        usage
-        exit 0
-        ;;
-      --version)
-        version
-        exit 0
-        ;;
-      --)
-        shift
-        break
-        ;;
-      -*)
-        echo "${0##*/}: unrecognized option -- '${1##*-}'" >&2
-        exit 2
-        ;;
-      *)
-        break
-        ;;
-    esac
-    shift
-  done
-  require_buffering="${require_buffering:-false}"
-  require_clear="${require_clear:-true}"
-  directory="${directory:-$(pwd)}"
-
-  if [[ $# -lt 1 ]]; then
-    echo "${0##*/}: no specify cmd" >&2
-    exit 2
-  fi
-  if [[ -z $(type -- "$1" 2> /dev/null) ]]; then
-    echo "${0##*/}: $1: cannot execute" >&2
-    exit 2
-  fi
-  cmd="$1"
-  args=("${@:2}")
-}
-
 usage() {
   cat <<EOF >&2
 Usage: ${0##*/} [OPTION]... COMMAND [ARGS]...
@@ -134,6 +59,78 @@ execute() {
   done
 }
 
-parse_flags "$@"
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -b|--buffer-output)
+      require_buffering=true
+      ;;
+    -b*)
+      require_buffering=true
+      next="-${1#-b}"
+      shift
+      set -- "$next" "$@"
+      continue
+      ;;
+    -C|--no-clear)
+      require_clear=false
+      ;;
+    -C*)
+      require_clear=false
+      next="-${1#-C}"
+      shift
+      set -- "$next" "$@"
+      continue
+      ;;
+    -d|--directory)
+      if [[ $# -lt 2 ]]; then
+        echo "${0##*/}: option requires an argument -- '${1##*-}'" >&2
+        exit 2
+      fi
+      directory="$2"
+      shift
+      ;;
+    -d*)
+      directory="${1#-d}"
+      ;;
+    --directory=*)
+      directory="${1#--directory=}"
+      ;;
+    --help)
+      usage
+      exit 0
+      ;;
+    --version)
+      version
+      exit 0
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*)
+      echo "${0##*/}: unrecognized option -- '${1##*-}'" >&2
+      exit 2
+      ;;
+    *)
+      break
+      ;;
+  esac
+  shift
+done
+require_buffering="${require_buffering:-false}"
+require_clear="${require_clear:-true}"
+directory="${directory:-$(pwd)}"
+
+if [[ $# -lt 1 ]]; then
+  echo "${0##*/}: no specify cmd" >&2
+  exit 2
+fi
+if [[ -z $(type -- "$1" 2> /dev/null) ]]; then
+  echo "${0##*/}: $1: cannot execute" >&2
+  exit 2
+fi
+cmd="$1"
+args=("${@:2}")
+
 monitor | execute
 exit 0
