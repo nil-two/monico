@@ -3,7 +3,7 @@ set -eu
 readonly version='0.3.0'
 
 usage() {
-  cat <<EOF
+  cat <<EOF >&2
 Usage: ${0##*/} [OPTION]... COMMAND [ARGS]...
 Execute COMMAND for changes to current directory.
 
@@ -17,11 +17,11 @@ EOF
 }
 
 version() {
-  echo "$version"
+  echo "$version" >&2
 }
 
 warn() {
-  echo "${0##*/}: $*"
+  echo "${0##*/}: $*" >&2
 }
 
 monitor() {
@@ -87,7 +87,7 @@ while [[ $# -gt 0 ]]; do
       ;;
     -d|--directory)
       if [[ $# -lt 2 ]]; then
-        warn "option requires an argument -- '${1##*-}'" >&2
+        warn "option requires an argument -- '${1##*-}'"
         exit 2
       fi
       directory="$2"
@@ -100,11 +100,11 @@ while [[ $# -gt 0 ]]; do
       directory="${1#--directory=}"
       ;;
     --help)
-      usage >&2
+      usage
       exit 0
       ;;
     --version)
-      version >&2
+      version
       exit 0
       ;;
     --)
@@ -112,7 +112,7 @@ while [[ $# -gt 0 ]]; do
       break
       ;;
     -*)
-      warn "unrecognized option -- '${1##*-}'" >&2
+      warn "unrecognized option -- '${1##*-}'"
       exit 2
       ;;
     *)
@@ -126,11 +126,11 @@ require_clear="${require_clear:-true}"
 directory="${directory:-$(pwd)}"
 
 if [[ $# -lt 1 ]]; then
-  warn "no specify cmd" >&2
+  warn "no specify cmd"
   exit 2
 fi
 if [[ -z $(type -- "$1" 2> /dev/null) ]]; then
-  warn "$1: cannot execute" >&2
+  warn "$1: cannot execute"
   exit 2
 fi
 cmd="$1"
