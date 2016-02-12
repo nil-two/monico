@@ -3,7 +3,7 @@ set -eu
 readonly version='0.3.0'
 
 usage() {
-  cat <<EOF >&2
+  cat <<__USAGE__ >&2
 Usage: ${0##*/} [OPTION]... COMMAND [ARGS]...
 Execute COMMAND for changes to current directory.
 
@@ -13,7 +13,7 @@ Options:
   -d, --directory=PATH   change monitored directory to PATH
       --help             display this help text and exit
       --version          output version information and exit
-EOF
+__USAGE__
 }
 
 version() {
