@@ -32,6 +32,7 @@ Usage
 
 ```
 $ monico [OPTION]... COMMAND [ARGS]...
+Execute COMMAND for changes to current directory.
 
 Options:
   -b, --buffer-output    output after command finished
