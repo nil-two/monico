@@ -126,7 +126,7 @@ require_clear="${require_clear:-true}"
 directory="${directory:-$(pwd)}"
 
 if [[ $# -lt 1 ]]; then
-  warn "no specify cmd"
+  warn "no specify COMMAND"
   exit 2
 fi
 if [[ -z $(type -- "$1" 2> /dev/null) ]]; then
