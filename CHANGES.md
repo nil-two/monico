@@ -1,3 +1,7 @@
+### v0.4.0 - 2016-02-23
+
+- Support `-b`, `--buffer-output` to allow buffering output.
+
 ### v0.3.0 - 2015-11-20
 
 - Support `-C`, `--no-clear` to allow suppressing clearing at execute.
