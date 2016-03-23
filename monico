@@ -37,7 +37,7 @@ monitor() {
 execute() {
   set +eu
   if $require_buffering; then
-    buffer="$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")"
+    buffer=$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")
     trap 'rm -rf -- '$buffer EXIT
   fi
 
@@ -64,13 +64,13 @@ execute() {
 }
 
 while [[ $# -gt 0 ]]; do
-  case "$1" in
+  case $1 in
     -b|--buffer-output)
       require_buffering=true
       ;;
     -b*)
       require_buffering=true
-      next="-${1#-b}"
+      next=-${1#-b}
       shift
       set -- "$next" "$@"
       continue
@@ -80,7 +80,7 @@ while [[ $# -gt 0 ]]; do
       ;;
     -C*)
       require_clear=false
-      next="-${1#-C}"
+      next=-${1#-C}
       shift
       set -- "$next" "$@"
       continue
@@ -90,14 +90,14 @@ while [[ $# -gt 0 ]]; do
         warn "option requires an argument -- '${1##*-}'"
         exit 2
       fi
-      directory="$2"
+      directory=$2
       shift
       ;;
     -d*)
-      directory="${1#-d}"
+      directory=${1#-d}
       ;;
     --directory=*)
-      directory="${1#--directory=}"
+      directory=${1#--directory=}
       ;;
     --help)
       usage
@@ -121,9 +121,9 @@ while [[ $# -gt 0 ]]; do
   esac
   shift
 done
-require_buffering="${require_buffering:-false}"
-require_clear="${require_clear:-true}"
-directory="${directory:-$(pwd)}"
+require_buffering=${require_buffering:-false}
+require_clear=${require_clear:-true}
+directory=${directory:-$(pwd)}
 
 if [[ $# -lt 1 ]]; then
   warn "no specify COMMAND"
@@ -133,7 +133,7 @@ if [[ -z $(type -- "$1" 2> /dev/null) ]]; then
   warn "$1: cannot execute"
   exit 2
 fi
-cmd="$1"
+cmd=$1
 args=("${@:2}")
 
 monitor | execute
