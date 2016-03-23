@@ -38,7 +38,10 @@ execute() {
   set +eu
   if $require_buffering; then
     buffer=$(mktemp "/tmp/${0##*/}.tmp.XXXXXX")
-    trap 'rm -rf -- '$buffer EXIT
+    atexit() {
+      rm -rf -- "$buffer"
+    }
+    trap atexit EXIT
   fi
 
   while read -r; do
