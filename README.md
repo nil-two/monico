@@ -23,7 +23,7 @@ The following instructions assume that `~/bin` is on your `$PATH`.
 If that is not the case, you can substitute your favorite location.
 
 ```sh
-curl -L https://raw.githubusercontent.com/kusabashira/monico/master/monico > ~/bin/monico
+curl -L https://raw.githubusercontent.com/nil2nekoni2/monico/master/monico > ~/bin/monico
 chmod 755 ~/bin/monico
 ```
 
@@ -57,4 +57,4 @@ MIT License
 Author
 ------
 
-kusabashira <kusabashira227@gmail.com>
+nil2 <nil2@nil2.org>
